@@ -1,4 +1,6 @@
 
+// 理解 主线程 和 网络线程 通信过程
+
 // 0 unsent 代理被创建，但尚未调用open()方法
 // 1 opened open（）方法已被调用
 // 2 headers-received send()方法已经被调用，并且头部状态已经可获得
