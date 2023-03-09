@@ -3,6 +3,8 @@
 3、跨域共享cookie的设置为 secure = true sameSite=None。 即 www.testdomaina.com 设置此类型的cookie， 在其他域名www.testdomainb.com
    下也可以 有权 “共享”， 此处的共享是指 当前页面中 Application => Cookies 能看到 www.testdomaina.com 的cookie, 如果在 www.testdomainb.com
    下发起 www.testdomaina.com 的接口请求  无限制下会带上这个cookie。
+4、www.testdomainb.com 通过iframe内嵌 www.testdomaina.com  非sameSite=None的cookie
+   也不会带到testdomaina中请求的header里面  因为www.testdomainb.com 页面的 pplication => Cookies 中 看不到 非sameSite=None的cookie
 
 cross site request forgery 思路：
 

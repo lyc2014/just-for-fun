@@ -81,7 +81,7 @@ getKeyAndCert().then(cert => {
             if (req.method === 'OPTIONS') {
                 let obj = {
                     'Access-Control-Allow-Headers': 'Content-Type',
-                    // 'Access-Control-Allow-Credentials': 'true'
+                    'Access-Control-Allow-Credentials': 'true'
                 }
                 if (req.headers.origin) {
                     obj['Access-Control-Allow-Origin'] = req.headers.origin
