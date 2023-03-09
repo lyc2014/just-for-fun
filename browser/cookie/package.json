@@ -1,0 +1,19 @@
+{
+  "name": "cookie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "csrf": "npx nodemon ./crossSiteRequestForgery/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mkcert": "^1.5.1"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.21"
+  }
+}

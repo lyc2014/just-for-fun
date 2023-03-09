@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三方网站</title>
+</head>
+<script src="https://www.testdomaina.com:8080/pay?money=200"></script>
+<body>
+    <div>
+        哈哈，小样儿，哪有赚大钱的方法，还是踏实努力工作吧！
+        <!-- form 表单的提交会伴随着跳转到action中指定 的url 链接，为了阻止这一行为，可以通过设置一个隐藏的iframe 页面，并将form 的target 属性指向这个iframe，当前页面iframe则不会刷新页面 -->
+        <form action="https://www.testdomaina.com:8080/pay" method="POST" class="form" target="targetIfr" style="display: none">
+            <input type="text" name="userName" value="xiaoming">
+            <input type="text" name="money" value="100">
+        </form>
+        <iframe name="targetIfr" style="display:none"></iframe>
+    </div>
+</body>
+<script>
+    document.querySelector('.form').submit();
+    Fetch('https://www.testdomaina.com:8080/pay', 'POST', {userName: 'fetchPost', money: 300})
+    .then((res) => {
+        console.log(res)
+    })
+
+
+
+
+    // 封装的请求方法
+    function Fetch(url, method = 'POST', data) {
+        return new Promise((resolve, reject) => {
+            let options = {};
+            if (method !== 'GET') {
+                options = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }
+            }
+            fetch(url, {
+                mode: 'cors', // no-cors, cors, *same-origin
+                method,
+                ...options,
+                credentials: 'include'
+            }).then((res) => {
+                return res.json();
+            }).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err);
+            });
+        })
+    }
+</script>
+</html>
