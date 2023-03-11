@@ -9,7 +9,7 @@
     // Promise 代表 chunk 处于 loadging
     // 0 代表 已经加载完成
     var installedChunks = {
-        "main": 0
+        "bundle": 0
     };
     function __webpack_require__ (moduleId) {
         var module = {
