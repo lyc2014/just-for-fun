@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="expires" content="Mon, 13 Mar 2023 09:11:33 GMT">
+    <title>Document</title>
+</head>
+<body>
+    <button id="default">req not set,  response not set</button><br/><br/><br/><br/>
+    <button id="maxAge20">req set max-age=20,  response not set</button><br/><br/><br/><br/>
+    <button id="resMaxAge20">req not set,  response set max-age=20</button><br/><br/><br/><br/>
+    <button id="rresMaxAge20">req not set max-age00,  response set max-age=20</button><br/><br/><br/><br/>
+    <button id="nresMaxAge20">req not set no-cache,  response set max-age=20</button><br/><br/><br/><br/>
+    <button id="defualtresNostore">req not set,  response not no-store</button><br/><br/><br/><br/>
+    <button id="noCachemaxAge20">req set not-cache,  response max-age=20</button><br/><br/><br/><br/>
+    <button id="maxAge0Etag">req set max-age=0,  response etag</button><br/><br/><br/><br/>
+    <button id="noCacheEtag">req set no-cache,  response etag</button><br/><br/><br/><br/>
+    <button id="maxAge20EtagNocache">req set no,  response etag no-cache</button><br/><br/><br/><br/>
+    <button id="EtagMaxage0">req set no,  response etag max-age=0</button><br/><br/><br/><br/>
+    <button id="etagChange">req set no,  response etagchange</button><br/><br/><br/><br/>
+</body>
+<script>
+    function request(url, fnc, ty) {
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', url, true)
+        xhr.onreadystatechange = function () {
+            if (xhr.status === 200 && xhr.readyState === 4) {
+                fnc(xhr.responseText)
+            }
+        }
+        console.log('ty', ty)
+        if (ty) {
+            xhr.setRequestHeader('Cache-Control', `${ty}`)
+        }
+        // xhr.setRequestHeader('Cache-Control', 'max-age=0')
+        xhr.send()
+    }
+    var btn = document.getElementById('default')
+    btn.addEventListener('click', function () {
+        request('/api', (data) => {
+            console.log('data', data)
+        })
+    })
+    var maxAge20 = document.getElementById('maxAge20')
+    maxAge20.addEventListener('click', function () {
+        request('/api', (data) => {
+            console.log('data', data)
+        }, 'max-age=20')
+    })
+
+    var resmaxAge20 = document.getElementById('resMaxAge20')
+    resMaxAge20.addEventListener('click', function () {
+        request('/api?max-age=20', (data) => {
+            console.log('data', data)
+        })
+    })
+    var rresMaxAge20 = document.getElementById('rresMaxAge20')
+    rresMaxAge20.addEventListener('click', function () {
+        request('/api?max-age=20', (data) => {
+            console.log('data', data)
+        }, 'max-age=0')
+    })
+    var nresMaxAge20 = document.getElementById('nresMaxAge20')
+    nresMaxAge20.addEventListener('click', function () {
+        request('/api?max-age=20', (data) => {
+            console.log('data', data)
+        }, 'no-cache')
+    })
+    var defualtresNostore = document.getElementById('defualtresNostore')
+    defualtresNostore.addEventListener('click', function () {
+        request('/api?no-store=true', (data) => {
+            console.log('data', data)
+        })
+    })
+    
+    var noCachemaxAge20 = document.getElementById('noCachemaxAge20')
+    noCachemaxAge20.addEventListener('click', function () {
+        request('/api?max-age=20', (data) => {
+            console.log('data', data)
+        }, 'no-cache')
+    })
+    
+    var maxAge0Etag = document.getElementById('maxAge0Etag')
+    maxAge0Etag.addEventListener('click', function () {
+        request('/api?etag=true', (data) => {
+            console.log('data', data)
+        }, 'max-age=0')
+    })
+    
+    var noCacheEtag = document.getElementById('noCacheEtag')
+    noCacheEtag.addEventListener('click', function () {
+        request('/api?etag=true', (data) => {
+            console.log('data', data)
+        }, 'no-cache')
+    })
+    var maxAge20EtagNocache = document.getElementById('maxAge20EtagNocache')
+    maxAge20EtagNocache.addEventListener('click', function () {
+        request('/api?etag=true&no-cache=true&max-age=20', (data) => {
+            console.log('data', data)
+        })
+    })
+    
+    var etagChange = document.getElementById('etagChange')
+    etagChange.addEventListener('click', function () {
+        request('/api?etagchange=true', (data) => {
+            console.log('data', data)
+        })
+    })
+    
+
+    var EtagMaxage0 = document.getElementById('EtagMaxage0')
+    EtagMaxage0.addEventListener('click', function () {
+        request('/api?etag=true&max-age=0', (data) => {
+            console.log('data', data)
+        })
+    })
+</script>
+</html>
