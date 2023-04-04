@@ -22,4 +22,3 @@ app.listen(3000, function () {
     console.log('server is listening...')
 })
 
-// app.use(require("webpack-hot-middleware")(compiler));

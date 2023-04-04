@@ -1,5 +1,5 @@
 {
-  "name": "webpack-HMR",
+  "name": "webpack4-HMR",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,10 +12,7 @@
   "devDependencies": {
     "express": "^4.18.2",
     "html-webpack-plugin": "^4.5.2",
-    "webpack": "^4.41.0"
-  },
-  "dependencies": {
-    "clean-webpack-plugin": "^0.1.19",
+    "webpack": "^4.41.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-hot-middleware": "^2.25.0"
   }
