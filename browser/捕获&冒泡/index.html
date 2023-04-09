@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #grandFather{
+            width: 600px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: red;
+        }
+        #father{
+            width: 400px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: green;
+        }
+        #son {
+            width: 150px;
+            height: 150px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="grandFather">
+        grandFather
+        <div id="father">
+            fater
+            <div id="son">
+                son
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let father = document.getElementById('father')
+    let son = document.getElementById('son')
+    // function print (name) {
+    //     console.log('see print', name)
+    // }
+    // const sendEvent = new Event("sendMsg", { bubbles: false })
+    // father.addEventListener('sendMsg', () => { print('fater') })
+    // son.addEventListener('sendMsg', () => print('son'))
+    // son.dispatchEvent(sendEvent)
+    son.addEventListener('click', function () { console.log('son ...') }, true)
+    father.addEventListener('click', function () { console.log('father ...') }, false)
+</script>
+</html>
