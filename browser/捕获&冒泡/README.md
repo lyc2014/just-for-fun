@@ -14,21 +14,30 @@
 
 举个例子，用户光标移到son蓝色区域点击鼠标左键，浏览器会创建一个允许冒泡的 click 事件  let click = new Event('click', { bubbles: true })。然后事件会从整个文档树的根节点开始向下传递，直至目标元素(son), 这个阶段称为 捕获阶段。它类似会从上而下这么触发事件：
 ...
-grandFather.dispatchEvent('click', '捕获阶段') **这里捕获阶段参数是为了方便理解写上去的**
+
+```javascript
+grandFather.dispatchEvent('click', '捕获阶段') //**这里捕获阶段参数是为了方便理解写上去的**
+
 father.dispatchEvent('click', '捕获阶段') 
+
 son.dispatchEvent('click')
+
+```
 
 冒泡阶段，冒泡行为指的是：事件从触发目标元素开始向上冒泡，直到传递到文档树的根节点(document)为止。 
 
-事件是否能冒泡，是注册事件的时候的参数决定的 如 new Event('click', { bubbles: true })， bubbles为true会触发冒泡。哪个去触发这个注册好的事件 都会发生冒泡行为。接上面行为。
+事件是否能冒泡，是注册事件的时候的参数决定的 如 new Event('click', { bubbles: true })， bubbles为true会触发冒泡。哪个去触发这个注册好的事件 都会发生冒泡行为。捕获阶段 =》 目标 =》 冒泡阶段
 
+```javascript
 son.dispatchEvent('click')
 
-father.dispatchEvent('click', '冒泡阶段') **这里冒泡阶段参数是为了方便理解写上去的**
+father.dispatchEvent('click', '冒泡阶段') // **这里冒泡阶段参数是为了方便理解写上去的**
 
 grandFather.dispatchEvent('click', '冒泡阶段')
+```
 
-也就是说 用户点击 这个动作引起这个捕获行为，冒泡因为是浏览器默认的click事件是允许冒泡的，下面举个例子解释这段话意思。
+也就是说用户 "点击" 这个动作引起这个捕获行为，冒泡因为是浏览器默认的click事件是允许冒泡的，下面举个例子解释这段话意思。
+点击 ----> 捕获    new事件 ---> 冒泡
 
 ```javascript
 // 注册一个不允许冒泡的事件
