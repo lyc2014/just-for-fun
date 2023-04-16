@@ -88,7 +88,7 @@ function bundle(graph) {
 
 const graph = createGraph('./example/entry.js')
 const result = bundle(graph)
-fs.writeFile(path.resolve(__dirname, 'dist/main.js'), result, 'utf-8', (err) => {
+fs.writeFile(path.resolve(__dirname, 'mydist/main.js'), result, 'utf-8', (err) => {
     if (err) {
         console.error(err)
         return
