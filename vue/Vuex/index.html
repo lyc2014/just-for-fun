@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="./myStore.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    const store = new Store({
+        state: {
+            count: 1
+        },
+        getters: {
+            getCount (state) {
+                return state.count
+            }
+        },
+        mutations: {
+            add (state, addend) {
+                state.count += addend
+            }
+        },
+        actions: {
+            addAsync (context, addend) {
+                let timer = setTimeout(() => {
+                    context.commit('add', addend)
+                }, 2000)
+            }
+        }
+    })
+    Vue.use(Store)
+    const app = new Vue({
+        store,
+        template: `
+            <div>
+                <h1>{{title}}</h1>
+                <p>count in store.state: {{this.$store.state.count}}</p>
+                <p>count in store.getters: {{this.$store.getters.getCount}}</p>
+                <button @click="add">加1</button><br/>
+                <h2>The use of the actions in store</h2>
+                <button @click="addAsync">add 10 after 2 seconds</button>
+                <p v-if="GlobalStore.ccc">rawState: {{GlobalStore.ccc.number}}</p>
+                <button @click="addGlobal">addGlobal</button>
+            </div>
+        `,
+        data () {
+            return {
+                title: 'How to use vuex',
+                GlobalStore: {rawState: {number:10}}
+            }
+        },
+        created () {
+            
+        },
+        mounted () {
+            this.GlobalStore = {
+                ccc: {
+                    number: 1
+                }
+            }
+        },
+        methods: {
+            add () {
+                this.$store.commit('add', 2)
+            },
+            addAsync () {
+                this.$store.dispatch('addAsync', 10)
+            },
+            addGlobal () {
+                this.GlobalStore.ccc.number++
+            }
+        }
+    })
+    app.$mount('#app')
+</script>
+</html>
