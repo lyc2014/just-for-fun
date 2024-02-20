@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="Decrement" aria-label="Decrement">-</button>
+    <span id="currentValue">0</span>
+    <button id="increment" aria-label="increment">+</button>
+</body>
+<script>
+    class Counter extends EventTarget {
+        constructor (initialValue = 0) {
+            super()
+            this.value = initialValue
+        }
+        #emitValueChangeEvent () {
+            this.dispatchEvent(new CustomEvent('valueChange', { detail: this.value }))
+        }
+        increment () {
+            this.value++
+            this.#emitValueChangeEvent()
+        }
+        decrement () {
+            this.value--
+            this.#emitValueChangeEvent()
+        }
+    }
+    const initialValue = 0;
+    const counter = new Counter(initialValue);
+    const numberDom = document.getElementById('currentValue')
+    const decrementBtn = document.getElementById('Decrement')
+    const incrementBtn = document.getElementById('increment')
+
+    counter.addEventListener('valueChange', function (event) {
+        numberDom.innerHTML = event.detail
+    })
+    decrementBtn.addEventListener('click', function () {
+        counter.decrement()
+    })
+    incrementBtn.addEventListener('click', function () {
+        counter.increment()
+    })
+</script>
+</html>

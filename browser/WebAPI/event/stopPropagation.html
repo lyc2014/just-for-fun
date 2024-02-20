@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="container">
+    <button id="btn">click me!</button>
+  </div>
+  <pre id="paragraph"></pre>
+</body>
+<script>
+  var container = document.getElementById('container')
+  var btn = document.getElementById('btn')
+  var paragraph = document.getElementById('paragraph')
+  function listenerHandlerDiv (event) {
+    paragraph.textContent += `The tag ${event.currentTarget.tagName} element is responsing for click event\n`
+  }
+  function listenerHandlerBtn (event) {
+    paragraph.textContent += `The tag ${event.currentTarget.tagName} element is responsing for click event\n`
+    event.stopPropagation()
+  }
+
+  container.addEventListener('click', listenerHandlerDiv)
+  btn.addEventListener('click', listenerHandlerBtn)
+</script>
+</html>

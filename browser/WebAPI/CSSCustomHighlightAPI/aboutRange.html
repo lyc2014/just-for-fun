@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ::highlight(my-custom-highlight){
+      background-color: yellow;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <p id="address">Wyatt Earp<br />
+    101 E. Main St.<br />
+    Dodge City, KS<br />
+    67801<br />
+    USA
+  </p>
+  
+  <hr />
+</body>
+<script>
+  const address = document.getElementById("address");
+  const log = document.getElementById("log");
+  const startOffset = 2
+  const endOffset = 5
+  const range = new Range()
+  range.setStart(address, startOffset)
+  range.setEnd(address, endOffset)
+  const selection = window.getSelection()
+  selection.addRange(range)
+
+  const range1 = new Range()
+  range1.setStart(address.childNodes[0], 2)
+  range1.setEnd(address.childNodes[0], 5)
+  const highlight = new Highlight(range1)
+  CSS.highlights.set('my-custom-highlight', highlight)
+</script>
+</html>

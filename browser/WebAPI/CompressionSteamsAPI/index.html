@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compression Streams API Example</title>
+</head>
+<body>
+    <h1>Compression Streams API Example</h1>
+
+    <script>
+        async function compressData(inputData) {
+            const encoder = new TextEncoder();
+            const decoder = new TextDecoder();
+
+            // 将输入数据编码为 Uint8Array
+            const inputUint8Array = encoder.encode(inputData);
+            console.log('inputUint8Array', inputUint8Array)
+
+            // 创建一个新的 CompressionStream，使用 gzip 压缩
+            const compressionStream = new CompressionStream('gzip');
+
+            // // 创建一个新的 ReadableStream 用于输入数据
+            const readableStream = new ReadableStream({
+                start(controller) {
+                    controller.enqueue(inputUint8Array);
+                    controller.close();
+                }
+            });
+
+            // // 使用管道将输入数据压缩
+            // const compressedStream = readableStream.pipeThrough(compressionStream);
+
+            // // 从压缩流中读取压缩后的数据
+            // const reader = compressedStream.getReader();
+            // let chunks = [];
+
+            // while (true) {
+            //     const { done, value } = await reader.read();
+            //     if (done) {
+            //         break;
+            //     }
+            //     chunks.push(value);
+            // }
+
+            // // 将压缩后的数据解码为字符串
+            // const compressedData = decoder.decode(new Uint8Array(chunks.reduce((acc, chunk) => acc.concat(Array.from(chunk)), []));
+
+            // console.log('Compressed data:', compressedData);
+        }
+
+        // 要压缩的数据
+        const inputData = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+        // 调用压缩函数
+        compressData(inputData);
+    </script>
+</body>
+</html>

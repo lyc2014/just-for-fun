@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p id="text">This is a text</p>
+</body>
+<script>
+  const text = document.getElementById('text')
+  const font = new FontFace("myfont", "url(./font1/MarckScriptRegular.woff.ttf)", {
+    style: 'italic',
+    weight: '700',
+    stretch: 'condensed'
+  })
+  document.fonts.add(font)
+  font.load()
+  document.fonts.ready.then(() => {
+    console.log('加载完成')
+    text.style.fontFamily = "myfont, sans-serif"
+  })
+</script>
+</html>

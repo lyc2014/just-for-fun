@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <pre id="paragraph"></pre>
+  <button id="download">download</button>
+</body>
+<script>
+  const download = document.getElementById('download')
+  const decoder = new TextDecoder('utf-8')
+  const paragraph = document.getElementById('paragraph')
+  download.addEventListener('click', () => {
+    fetch('http://localhost:3000/').then(response => {
+      const reader = response.body.getReader();
+      return new ReadableStream({
+        start(controller) {
+          function pump() {
+            return reader.read().then(({ done, value }) => {
+              if (done) {
+                controller.close();
+                return;
+              }
+              const text = decoder.decode(value)
+              paragraph.textContent += `${text}\n`
+              controller.enqueue(value);
+              return pump();
+            });
+          }
+          pump();
+        }
+      });
+    })
+  })
+</script>
+</html>

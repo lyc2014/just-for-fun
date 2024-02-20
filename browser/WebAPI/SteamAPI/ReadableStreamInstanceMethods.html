@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">click me!</button>
+  <ol id="list"></ol>
+</body>
+<script>
+  let interval
+  let button = document.getElementById('btn')
+  let list = document.getElementById('list')
+  let encoder = new TextEncoder('utf-8')
+  let docoder = new TextDecoder('utf-8')
+  const stream = new ReadableStream({
+    start (controller) {
+      interval = setInterval(() => {
+        let string = randomChars(10)
+        // binary stream
+        controller.enqueue(encoder.encode(string))
+      }, 2000)
+      button.addEventListener('click', () => {
+        clearInterval(interval)
+        controller.close()
+      })
+    },
+    type: 'bytes'
+  })
+
+  // getReader() method
+  const reader = stream.getReader()
+  reader.read().then(function process({ value, done }) {
+    // { value: theChunk, done: false }
+    // { value: undefined, done: true }
+    if (done) {
+      console.log('reader is done')
+      return
+    }
+    console.log('value', docoder.decode(value))
+    let li = document.createElement('li')
+    li.textContent = docoder.decode(value)
+    list.appendChild(li)
+    return reader.read().then(process)
+  })
+
+  // closed property
+  reader.closed.then(() => {
+    console.log("reader closed")
+  })
+
+
+  
+  //utils
+  function randomChars(length) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * chars.length);
+        result += chars.charAt(randomIndex);
+    }
+    return result;
+}
+</script>
+</html>

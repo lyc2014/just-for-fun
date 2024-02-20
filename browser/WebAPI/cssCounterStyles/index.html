@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  @counter-style my-counter {
+    system: cyclic;
+    symbols: "❤️" "🌟" "🔥";
+    suffix: " "
+  }
+
+  ol{
+    list-style: my-counter;
+  }
+
+</style>
+<body>
+  <h1>Custom Counter Styles Example</h1>
+  <ol>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ol>
+</body>
+</html>

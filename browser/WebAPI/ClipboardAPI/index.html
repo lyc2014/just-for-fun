@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p id="text"></p>
+  <button onclick="checkClipText()">check cliptext</button>
+</body>
+<script>
+  const text = document.getElementById('text')
+  function checkClipText () {
+    navigator.clipboard.readText().then((clipText) => {
+      text.innerHTML = clipText
+    })
+  }
+</script>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="inputElement">
+    <br/>
+    <button id="downloadbtn">下载</button>
+</body>
+<script>
+    var downloadBtn = document.getElementById('downloadbtn')
+    var inputElement = document.getElementById('inputElement')
+    function onloaded (event) {
+        console.log(event.target.result)
+        let result = event.target.result
+        const utf8Type = new Uint8Array(result)
+        console.log('utf8Type', utf8Type)
+        utf8Type[0] = 109
+        // var blob1 = new Blob([result], {type: 'text/plain'})
+        // var url = URL.createObjectURL(blob1)
+        // var btn = document.createElement('a')
+        // btn.href = url
+        // btn.download = 'modifiled_file.txt'
+        // btn.click()
+    }
+    inputElement.addEventListener('change', function () {
+        var file = inputElement.files[0]
+        // console.log('file', file)
+        var fileReader1 = new FileReader()
+        fileReader1.onload = onloaded
+        fileReader1.readAsArrayBuffer(file)
+        // fileReader1.readAsText(file)
+    })
+</script>
+</html>
