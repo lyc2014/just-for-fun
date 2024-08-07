@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <h1>使用net模块, 测试FecthAPI所有功能</h1>
+    <div>
+      <button onclick="chunkFetchData()">click me!</button> <label>chunk用法</label>
+      <p id="chunk-content"></p>
+    </div>
+    <div>
+      <button onclick="jsonFetchData()">click me!</button> <label for="">获取application/json movie</label>
+    </div>
+    <div>
+      <button onclick="formDataFetchData()">click me!</button> <label for="">获取application/x-www-form-urlencoded  即formData</label>
+    </div>
+    <div>
+      <button onclick="textDataFetchData()">clicke me!</button> <label for="">获取text/plain</label>
+    </div>
+    <div>
+      <button onclick="arrayBufferFetchData()">click me!</button> <label for="">获取arraybufferFetchData</label>
+    </div>
+    <div>
+      <button onclick="arrayBufferWindowSaveData()">click me!</button> <label for="">展开窗口保存text文件</label>
+    </div>
+    <div>
+      <button onclick="blobWindowSaveData()">click me!</button> <label for="">获取blob数据</label>
+    </div>
+    <div>
+      <button onclick="fetchPostData()">click me!</button> <label for="">发起post请求</label>
+    </div>
+  </div>
+</body>
+<script>
+  // =========================>  About Response
+  const  chunkContent = document.getElementById('chunk-content')
+  function chunkFetchData () {
+    fetch('http://127.0.0.1:3000/chunk').then(res => {
+      // 一、 Response.body  :  A ReadableStream of the body contents
+      /**
+       * 1. reader = body.getReader()
+       * 2. reader.read().then({value, done} => {})  value:null || Uint8Array, done: Boolean
+      */
+      let body = res.body
+      let reader = body.getReader()
+      let utf8Decoder = new TextDecoder()
+      let data = new Uint8Array()
+      // 二、 Response.bodyUsed
+      // console.log('bodyUsed', res.bodyUsed) // false
+      // 三、 Response.ok
+      // console.log('Response-ok', res.ok) // ok true
+      // 四、Response.headers
+      let headers = res.headers
+      // console.log(headers.get('Connection')) // keep-alive
+      // 五、Response.type
+      // console.log(res.type) // basic  others: cors error opaque opaqueredirect
+      // 六、Response.url
+      // console.log(res.url) // http://127.0.0.1:3000/chunk
+      // 七、Response.status
+      console.log('status', res.status)
+      // 八、Response.statusText
+      console.log('statusText', res.statusText)
+      function getChunk () {
+        reader.read().then(({ value, done }) => {
+          // console.log('bodyUsed-read', res.bodyUsed) // true
+          // console.log('Response-ok-read', res.ok) // ok true
+          if (done) {
+            chunkContent.innerHTML = utf8Decoder.decode(data)
+            console.log('chunks all achived completely')
+            return
+          }
+          if (value) {
+            // value 固定是一个 Uint8Array  不受 response header里面的 charset格式的影响
+            // response header中的charset只能影响浏览器的某些默认功能的解析方式，
+            // 比如设置了charset=utf16  浏览器的network 此处接口的 preview和 response 栏目的展示就会按照utf16解码二进制数据显示出来。
+            data = Uint8Array.from([...data, ...value])
+          }
+          getChunk()
+        })
+      }
+      getChunk()
+      // Instance methods 
+      // 一、arrayBuffer()  这个和 read body stream 是互斥的  如果读了流 这个就用不了
+      // res.arrayBuffer().then(arraybuffer => {
+      //   console.log('arraybuffer======>', arraybuffer)
+      // })
+      // blob()  这个和 read body stream 是互斥的  如果读了流 这个就用不了
+      // res.blob().then(blob => {
+      //   console.log('blob======>', blob)
+      // })
+    })
+  }
+  function jsonFetchData () {
+    fetch('http://127.0.0.1:3000/moviesJSON').then(res => {
+      res.json().then(json => {
+        console.log('json', json)
+      })
+    })
+  }
+  function formDataFetchData () {
+    fetch('http://127.0.0.1:3000/formData', {
+      method: 'GET'
+    }).then(res => {
+      console.log('res', res)
+      res.formData().then(formDataValue => {
+        console.log(formDataValue)
+        for (const key of formDataValue.keys()) {
+          console.log(key);
+        }
+      })
+    })
+  }
+  function textDataFetchData () {
+    fetch('http://127.0.0.1:3000/textData').then(res => {
+      res.text().then(text => {
+        console.log('text', text)
+      })
+    })
+  }
+  function arrayBufferFetchData () {
+    fetch('http://127.0.0.1:3000/arrayBuffer').then(res => {
+      let utf8Decoder = new TextDecoder()
+      res.arrayBuffer().then(arrayBuffer => {
+        const text = utf8Decoder.decode(arrayBuffer)
+        console.log('buffer to text', text)
+        const blob = new Blob([arrayBuffer])
+        const textUrl = window.URL.createObjectURL(blob)
+        const aElement = document.createElement('a')
+        aElement.href = textUrl
+        // 有个 download属性 就不会发生跳转
+        aElement.download = 'textData.txt'
+        document.body.append(aElement)
+        aElement.click()
+        let timer = setTimeout(() => {
+          aElement.remove()
+          window.URL.revokeObjectURL(textUrl)
+          clearTimeout(timer)
+        }, 5000)
+      })
+    })
+  }
+  function arrayBufferWindowSaveData () {
+    fetch('http://127.0.0.1:3000/arrayBuffer').then(res => {
+      const pickerOpts = {
+        types: [
+          {
+            description: 'text',
+            accept: { "text/plain": [".txt"] },
+            multiple: false
+          }
+        ]
+      }
+      res.arrayBuffer().then(buffer => {
+        console.log('buffer',buffer)
+        const blob = new Blob([buffer])
+        window.showSaveFilePicker(pickerOpts).then((fileHandler) => {
+          fileHandler.createWritable().then(writable => {
+            // writable 需要write一个blob文件
+            writable.write(blob).then(() => {
+              writable.close()
+            })
+          })
+        })
+      })
+    })
+  }
+  function blobWindowSaveData () {
+    fetch('http://127.0.0.1:3000/multipartFormData').then(res => {
+      res.text().then(text => {
+        console.log('text', text)
+      })
+    })
+  }
+  // <=========================  About Response
+
+  // ==========================> About Request
+  function fetchPostData () {
+    fetch('http://127.0.0.1:3000/postDataBaisc', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: 'lyc',
+        age: 29,
+        weight: 68,
+        height: 168
+      })
+    }).then(res => {
+      console.log(res)
+    })
+  }
+
+</script>
+</html>

@@ -47,6 +47,7 @@
                 var promise = new Promise(function (resolve, reject) {
                     installedChunkData = installedChunks[chunkId] = [resolve, reject]
                 })
+                // 这是为了解决 两个地方都加载同一个chunk的问题  与上面的 promise.push(installedChunkData[2])对应
                 promises.push(installedChunkData[2] = promise)
                 var head = document.getElementsByTagName('head')[0]
                 var script = document.createElement('script')
@@ -71,6 +72,7 @@
     var parentJsonpFunction = oldJsonpFunction
 
     function webpackJsonpCallback (data) {
+        // data 即 module： [[0], {'xxx': function(){...}}]
         var chunkIds = data[0]
         var moreModules = data[1]
 
@@ -78,7 +80,8 @@
         for (; i < chunkIds.length; i++) {
             chunkId = chunkIds[i]
             if (installedChunks[chunkId]) {
-                // 即 __webpack_require__.e 中 promises = [resolve, reject, promise] 的resolve
+                // 即 __webpack_require__.e 中 promises = [resolve, reject] 的resolve
+                // installedChunks[chunkId] = [resolve,reject]
                 resolves.push(installedChunks[chunkId][0])
             }
             // 代表 chunk已经加载完成
