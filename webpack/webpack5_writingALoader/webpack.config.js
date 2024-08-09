@@ -1,4 +1,5 @@
 const path = require('path')
+const SimpleHtmlWebpackPlugin = require('./plugins/SimpleHtmlWebpackPlugin.js')
 module.exports = {
   mode: 'development',
   context: __dirname,
@@ -30,5 +31,8 @@ module.exports = {
         use: ['simpleStyleLoader', 'simpleCssLoader', 'cssUrlLoader']
       }
     ]
-  }
+  },
+  plugins: [
+    new SimpleHtmlWebpackPlugin()
+  ]
 }

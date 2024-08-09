@@ -43,6 +43,5 @@ module.exports = function cssUrlLoader (content) {
       } else return match
     } else return match
   })
-  console.log('newContent', newContent)
   return newContent
 }
