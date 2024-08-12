@@ -9,33 +9,23 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./test/base.css":
-/*!***********************!*\
-  !*** ./test/base.css ***!
-  \***********************/
+/***/ "./test/folder/data.txt":
+/*!******************************!*\
+  !*** ./test/folder/data.txt ***!
+  \******************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("\n      const cssArray = [];\n      let n = 0;\n      \n           cssArray[n] = __webpack_require__(/*! ./test/font.css */ \"./test/font.css\");\n           n++\n        \n      const content = cssArray.join('\\n')\n      module.exports = content + \"\\r\\nbody{\\r\\n  color: red;\\r\\n}\";\n    \n\n//# sourceURL=webpack://webpack5_writingALoader/./test/base.css?");
+eval("\n    const a = __webpack_require__(/*! ./a.js */ \"./test/folder/a.js\")\n    console.log(a)\n    console.log(\"this is requireLoader's content\")\n    module.exports = \"this is data.txt content\"\n  \n\n//# sourceURL=webpack://webpack5_writingALoader/./test/folder/data.txt?");
 
 /***/ }),
 
-/***/ "./test/font.css":
-/*!***********************!*\
-  !*** ./test/font.css ***!
-  \***********************/
+/***/ "./test/folder/a.js":
+/*!**************************!*\
+  !*** ./test/folder/a.js ***!
+  \**************************/
 /***/ ((module) => {
 
-eval("\n        module.exports = \".font {\\r\\n  font-size: 18px;\\r\\n}\"\n      \n\n//# sourceURL=webpack://webpack5_writingALoader/./test/font.css?");
-
-/***/ }),
-
-/***/ "./test/test.css":
-/*!***********************!*\
-  !*** ./test/test.css ***!
-  \***********************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("\n      const cssArray = [];\n      let n = 0;\n      \n           cssArray[n] = __webpack_require__(/*! ./test/base.css */ \"./test/base.css\");\n           n++\n        \n      const content = cssArray.join('\\n')\n      module.exports = content + \"\\r\\nh1 {\\r\\n  color: green;\\r\\n}\";\n    \n\n//# sourceURL=webpack://webpack5_writingALoader/./test/test.css?");
+eval("module.exports = 'Hello world'\n\n//# sourceURL=webpack://webpack5_writingALoader/./test/folder/a.js?");
 
 /***/ }),
 
@@ -46,7 +36,7 @@ eval("\n      const cssArray = [];\n      let n = 0;\n      \n           cssArra
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _test_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.css */ \"./test/test.css\");\n/* harmony import */ var _test_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_test_css__WEBPACK_IMPORTED_MODULE_0__);\n// import data from './data.txt'\r\n// import data1 from './data.text'\r\n\r\n// console.log(data1)\r\n\r\n// console.log(data)\r\n// import base from './base.css'\r\n\r\n// console.log(base)\r\n\r\n\r\nconsole.log((_test_css__WEBPACK_IMPORTED_MODULE_0___default()))\n\n//# sourceURL=webpack://webpack5_writingALoader/./test/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _folder_data_txt__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./folder/data.txt */ \"./test/folder/data.txt\");\n/* harmony import */ var _folder_data_txt__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_folder_data_txt__WEBPACK_IMPORTED_MODULE_0__);\n\r\n// import data1 from './data.text'\r\n\r\n// console.log(data1)\r\n\r\nconsole.log((_folder_data_txt__WEBPACK_IMPORTED_MODULE_0___default()))\r\n// import base from './base.css'\r\n\r\n// console.log(base)\r\n\r\n// import test from './test.css'\r\n// console.log(test)\n\n//# sourceURL=webpack://webpack5_writingALoader/./test/index.js?");
 
 /***/ })
 

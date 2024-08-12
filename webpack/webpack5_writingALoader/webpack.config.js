@@ -13,7 +13,7 @@ module.exports = {
     }
   },
   resolveLoader: {
-    modules: ['node_modules', path.resolve(__dirname, './loaders')],
+    modules: ['node_modules', path.resolve(__dirname, './loaders'), path.resolve(__dirname, './pitchLoader')],
     extensions: ['.js', '.json']
   },
   module: {
@@ -28,7 +28,8 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['simpleStyleLoader', 'simpleCssLoader', 'cssUrlLoader']
+        // use: ['simpleStyleLoader', 'simpleCssLoader', 'cssUrlLoader']
+        use: ['pitchStyleLoader', 'cssNormalLoader']
       }
     ]
   },

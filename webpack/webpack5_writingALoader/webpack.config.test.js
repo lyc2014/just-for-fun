@@ -14,7 +14,8 @@ module.exports = {
     rules: [
       {
         test: /\.txt$/i,
-        use: ['dataSharingLoader1', 'dataSharingLoader2']
+        // use: ['dataSharingLoader1', 'dataSharingLoader2'],
+        use: ['requireLoader']
       }, 
       {
         test: /\.text$/i,
