@@ -10,7 +10,12 @@ module.exports = {
   },
   devServer: {
     port: 9000,
-    hot: true
+    hot: true,
+    proxy: [{
+      context: ['/api'],
+      pathRewrite: { '^/api': '' },
+      target: 'http://localhost:3000'
+    }]
   },
   module: {
     rules: [
